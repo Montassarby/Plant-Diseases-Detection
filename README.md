@@ -1,130 +1,287 @@
-# Plant Diseases Detection  
-> Embedded AI system for early plant disease detection using Raspberry Pi 4, ESP32, and ResNet-50.
+# Plant Diseases Detection — Embedded AI System
+
+> Edge AI system for **real-time plant disease detection** using **Raspberry Pi 4, ESP32, and ResNet-50**.
 
 ---
 
-## Overview  
-This project aims to design and implement an **embedded intelligent system** capable of detecting plant diseases using **computer vision** and **environmental sensors**.  
-The solution combines:
-- A **ResNet-50** deep learning model deployed on a **Raspberry Pi 4**.  
-- A set of sensors (BMP280, humidity, and light sensors) connected to an **ESP32**.  
-- An **OLED screen** that displays both predictions and environmental data in real time.  
+#  Overview
 
-The system assists farmers and agronomists in early disease detection — even **without Internet access** — providing a low-cost, portable, and autonomous tool for sustainable agriculture.
+This project presents the design and development of an **embedded intelligent system** capable of detecting plant diseases directly on-device using **computer vision and environmental sensors**.
 
----
+The system combines:
 
-##  Objectives  
-- **Real-time image analysis** of plant leaves using ResNet-50.  
-- **Acquisition of environmental data** (temperature, soil moisture, light intensity).  
-- **On-device disease prediction** and OLED display output.  
-- **Hardware integration** for portability, autonomy, and low power consumption.  
+* **ResNet-50 deep learning model** for plant disease classification
+* **Raspberry Pi 4** for image processing and AI inference
+* **ESP32 microcontroller** for environmental sensor acquisition
+* **OLED display** for real-time output
+
+The solution enables **early detection of plant diseases without internet connectivity**, making it suitable for **smart agriculture and edge AI applications**.
 
 ---
 
-##  Methodology  
-Two complementary development models were adopted:
-- **CRISP-DM** for building and validating the machine learning model.  
-- **V-Model** for the embedded hardware–software development cycle.  
+#  Objectives
+
+* Detect plant diseases from leaf images using **deep learning**
+* Monitor **environmental conditions** (temperature, humidity, light)
+* Perform **on-device inference** on Raspberry Pi
+* Provide a **portable and low-cost agricultural diagnostic system**
 
 ---
 
-##  System Architecture  
+#  Methodology
 
-### Physical Architecture  
-- **Tier 1 — Presentation:** OLED display (output interface).  
-- **Tier 2 — Control:** ESP32 microcontroller (sensor data collection + UART transmission).  
-- **Tier 3 — Processing:** Raspberry Pi 4 (AI inference + data aggregation + visualization).  
+Two development approaches were used:
 
-### Logical Architecture  
-Implemented using an **MVC pattern** and design patterns (**Singleton**, **Observer**) to improve modularity and maintainability.
-
----
-
-## Hardware Components  
-
-| Component | Function |
-|------------|-----------|
-| **Raspberry Pi 4** | Runs the AI model and handles the user interface |
-| **ESP32** | Collects and transmits sensor data (UART) |
-| **BMP280** | Measures temperature and atmospheric pressure |
-| **Soil Humidity Sensor** | Measures soil moisture level |
-| **BH1750 Light Sensor** | Measures light intensity |
-| **Raspberry Pi Camera V2 (IMX219)** | Captures leaf images |
-| **OLED Display** | Displays prediction and sensor data |
-| **Custom 3D-printed case** | Houses components (modeled in SolidWorks) |
+| Model        | Purpose                    |
+| ------------ | -------------------------- |
+| **CRISP-DM** | Machine learning lifecycle |
+| **V-Model**  | Embedded system design     |
 
 ---
 
-## Software Environment  
+# 🏗 System Architecture
 
-**Hardware setup:**  
-- CPU: Intel Core i5-12400F  
-- GPU: NVIDIA RTX 3060 (12 GB VRAM)  
-- RAM: 16 GB  
-- OS: Windows 11 (for model training)  
-- Deployment: Raspberry Pi OS on Raspberry Pi 4  
+## Physical Architecture
 
-**Software tools:**  
-- **VS Code** – code editor  
-- **SolidWorks** – 3D modeling  
-- **Arduino IDE / MicroPython** – ESP32 development  
-- **Raspberry Pi Imager** – system installation  
+**Tier 1 — Presentation**
 
----
+* OLED display showing predictions and sensor data
 
-## Technologies & Libraries  
+**Tier 2 — Control**
 
-| Language | Usage |
-|-----------|--------|
-| **Python 3.x** | Model training & inference |
-| **MicroPython** | Embedded ESP32 code |
+* ESP32 microcontroller collecting environmental data
 
-**Libraries used:**  
-- `torch`, `torchvision` – Deep Learning (ResNet-50, fine-tuning)  
-- `numpy`, `scikit-learn` – data manipulation & evaluation  
-- `matplotlib` – visualization  
-- `opencv-python` – image capture & processing  
-- `pyserial` – UART communication  
-- `os` – system file management  
+**Tier 3 — Processing**
+
+* Raspberry Pi running the deep learning model
 
 ---
 
-##  Model Development  
+## Logical Architecture
 
-### Dataset  
-- **PlantVillage Dataset** — 54 315 images of 14 crops and 38 disease classes.  
-- Classes balanced between healthy and infected leaves.  
+The software architecture follows an **MVC pattern** with design patterns:
 
-### Preprocessing  
-- Image resizing to **224 × 224 px**  
-- Normalization & tensor conversion  
-- Train/validation split: **80 % / 20 %**  
+* **Singleton**
+* **Observer**
 
-### Model Training  
-- Base model: **ResNet-50 (pretrained on ImageNet)**  
-- Optimizer: **Adam**  
-- Learning rate: **0.01**  
-- Epochs: **40**  
-- Loss: **CrossEntropyLoss**  
-- Hardware acceleration: **CUDA 12.1 + cuDNN 8.9** on RTX 3060  
-
-### Results  
-| Metric | Value |
-|--------:|:------|
-| **Accuracy** | **99.12 %** |
-| **Precision** | **98 %** |
-
-The model was exported as a `.pth` file and later integrated into the Raspberry Pi system for on-device inference.
+This improves modularity and maintainability of the embedded system.
 
 ---
 
-## Deployment  
+#  Hardware Components
 
-1. Install **Raspberry Pi OS** using Raspberry Pi Imager.  
-2. Enable **SSH** and configure Wi-Fi for remote access.  
-3. Create a Python virtual environment and install dependencies:
-   ```bash
-   python3 -m venv venv
-   source venv/bin/activate
-   pip install torch torchvision opencv-python pyserial
+| Component              | Function                                |
+| ---------------------- | --------------------------------------- |
+| Raspberry Pi 4         | Runs AI inference and system logic      |
+| ESP32                  | Collects environmental sensor data      |
+| BMP280                 | Temperature and pressure sensor         |
+| Soil Moisture Sensor   | Measures soil humidity                  |
+| Light Sensor           | Measures light intensity                |
+| Raspberry Pi Camera V2 | Captures plant images                   |
+| OLED Display           | Displays predictions and sensor data    |
+| 3D Printed Case        | Custom enclosure designed in SolidWorks |
+
+---
+
+#  Software Environment
+
+### Training Environment
+
+* CPU: Intel Core i5-12400F
+* GPU: NVIDIA RTX 3060 (12GB)
+* RAM: 16GB
+* OS: Windows 11
+* CUDA 12.1 + cuDNN 8.9
+
+### Deployment Environment
+
+* Raspberry Pi 4
+* Raspberry Pi OS
+* Python 3
+
+---
+
+#  Technologies & Libraries
+
+### Languages
+
+* Python
+* MicroPython
+
+### Libraries
+
+* torch
+* torchvision
+* opencv-python
+* numpy
+* scikit-learn
+* matplotlib
+* pyserial
+* PIL
+* luma.oled
+
+---
+
+#  Dataset
+
+The model was trained using the **PlantVillage dataset**.
+
+Dataset characteristics:
+
+* **54,315 images**
+* **14 crop species**
+* **38 plant disease classes**
+
+Dataset source:
+
+https://www.kaggle.com/datasets/emmarex/plantdisease
+
+---
+
+#  Model Development
+
+### Preprocessing
+
+* Image resizing: **224 × 224**
+* Normalization
+* Conversion to tensor
+
+### Training Configuration
+
+| Parameter                | Value                           |
+| ------------------------ | ------------------------------- |
+| Base Model               | ResNet-50 (pretrained ImageNet) |
+| Optimizer                | Adam                            |
+| Epochs                   | 40                              |
+| Loss                     | CrossEntropyLoss                |
+| Train / Validation Split | 80% / 20%                       |
+
+### Results
+
+| Metric    | Score      |
+| --------- | ---------- |
+| Accuracy  | **99.12%** |
+| Precision | **98%**    |
+
+---
+
+#  Project Structure
+
+```
+plant-disease-detection/
+│
+├── esp32/
+│   └── esp32.py
+│
+├── raspberry_pi/
+│   └── raspberry.py
+│
+├── model/
+│   └── Resnet50.ipynb
+│
+├── hardware/
+│   └── Conception3D.SLDPRT
+│
+├── dataset/
+│   └── dataset_link.txt
+│
+└── README.md
+```
+
+---
+
+#  Deployment
+
+The trained model is **not included in the repository** because it must be generated from the training notebook.
+
+## Step 1 — Train the model
+
+Open the notebook:
+
+```
+model/Resnet50.ipynb
+```
+
+Run all cells to train the model using the PlantVillage dataset.
+
+---
+
+## Step 2 — Export the model
+
+After training, export the model to **TorchScript** format for Raspberry Pi inference.
+
+Example:
+
+```python
+import torch
+
+scripted_model = torch.jit.script(model)
+scripted_model.save("plant_diseases_detection_scripted.pt")
+```
+
+Move the generated file to:
+
+```
+model/plant_diseases_detection_scripted.pt
+```
+
+---
+
+## Step 3 — Setup Raspberry Pi
+
+Install dependencies:
+
+```
+pip install torch torchvision opencv-python pyserial pillow luma.oled
+```
+
+---
+
+## Step 4 — Run the system
+
+Start the Raspberry Pi script:
+
+```
+python raspberry_pi/raspberry.py
+```
+
+When the button is pressed:
+
+1. Camera captures a leaf image
+2. The AI model predicts the disease
+3. Sensor data from ESP32 is combined
+4. Results are displayed on the OLED screen
+
+---
+
+#  ESP32 Sensors
+
+The ESP32 reads environmental sensors and sends data to the Raspberry Pi through **UART communication**.
+
+Example transmitted data:
+
+```
+T:25.3,P:1012,H:42,L:1800
+```
+
+Where:
+
+* **T** = Temperature
+* **P** = Pressure
+* **H** = Soil humidity
+* **L** = Light intensity
+
+---
+
+#  Future Improvements
+
+* Mobile application for monitoring
+* Cloud data logging
+* Model optimization with **TensorRT / ONNX**
+* Real-time field deployment
+
+---
+
+#  Author
+
+Embedded AI project developed for academic purposes in **AI, IoT, and Smart Agriculture**.
