@@ -1,0 +1,7 @@
+PlantVillage Dataset
+
+https://www.kaggle.com/datasets/emmarex/plantdisease
+
+54315 images
+14 crops
+38 disease classes
